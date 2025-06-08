@@ -1,12 +1,12 @@
 {
-  "name": "vc-logger-bot",
+  "name": "vc-logger",
   "version": "1.0.0",
-  "description": "Logs when a user joins a specific VC",
   "main": "bot.js",
   "scripts": {
     "start": "node bot.js"
   },
   "dependencies": {
-    "discord.js": "^14.14.1"
+    "discord.js": "^14.14.1",
+    "express": "^4.18.2"
   }
 }
