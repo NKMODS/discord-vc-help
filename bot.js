@@ -1,4 +1,10 @@
+const http = require('http');
 const { Client, GatewayIntentBits } = require('discord.js');
+
+http.createServer((req, res) => {
+  res.writeHead(200);
+  res.end('Bot is running!');
+}).listen(process.env.PORT || 3000);
 
 const client = new Client({
   intents: [
@@ -29,12 +35,9 @@ client.on('voiceStateUpdate', (oldState, newState) => {
 
     if (alertChannel) {
       const userMention = `<@${user.id}>`;
-
       const roleMentions = ROLE_IDS_TO_MENTION.map(id => `<@&${id}>`).join(' ');
 
-      const message = `🔔 **${userMention}** joined the help VC! 
-${roleMentions}
------------------------------------------`;
+      const message = `🔔 ${userMention} joined the help VC!\n${roleMentions}\n-----------------------------------------`;
 
       alertChannel.send(message);
     }
