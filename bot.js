@@ -1,11 +1,12 @@
-const http = require('http');
+const express = require('express');
 const { Client, GatewayIntentBits } = require('discord.js');
 
-http.createServer((req, res) => {
-  res.writeHead(200);
-  res.end('Bot is running!');
-}).listen(process.env.PORT || 3000);
+// Start web server
+const app = express();
+app.get("/", (req, res) => res.send("Bot is alive"));
+app.listen(3000, () => console.log("Web server running"));
 
+// Bot setup
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -32,13 +33,8 @@ client.on('voiceStateUpdate', (oldState, newState) => {
   if (oldState.channelId !== newState.channelId && newState.channelId === TARGET_VC_ID) {
     const user = newState.member.user;
     const alertChannel = client.channels.cache.get(ALERT_CHANNEL_ID);
-
     if (alertChannel) {
-      const userMention = `<@${user.id}>`;
-      const roleMentions = ROLE_IDS_TO_MENTION.map(id => `<@&${id}>`).join(' ');
-
-      const message = `🔔 ${userMention} joined the help VC!\n${roleMentions}\n-----------------------------------------`;
-
+      const message = `🔔 **<@${user.id}>** joined the help VC!\n${ROLE_IDS_TO_MENTION.map(id => `<@&${id}>`).join(' ')}\n-----------------------------------------`;
       alertChannel.send(message);
     }
   }
